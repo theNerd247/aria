@@ -5,7 +5,7 @@
 ## PROJECT ##############################
 
 SHELL=/bin/sh
-PROJECT=mecharia
+PROJECT=mecharia2
 VERSION=0.1
 ASN=2
 
@@ -92,7 +92,7 @@ doc:
 run: all
 	clear
 	export "LD_LIBRARY_PATH=$$LD_LIBRARY_PATH:/usr/local/Aria/lib"; \
-	./bin/mecharia
+	$(TARGET)
 
 dbg: all
 	clear

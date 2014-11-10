@@ -153,7 +153,7 @@ void asn1(ArRobot* robot)
 	/** set up robot actions */
 	ArActionGotoCust gotopnt;
 	gotopnt.setCloseDist(0);
-	gotopnt.setRobot(robot);
+	gotopnt.setRobot(robot); //uneeded
 	robot->addAction(&gotopnt,100);
 
 	/** turn on the motors */
