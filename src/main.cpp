@@ -28,19 +28,6 @@ int main(int argc, char *argv[])
 
   //run asssignment
 	RUNASNx;
-/*
- *  robot.enableMotors(); 
- *
- *  [>* add robot actions <]
- *  ArActionGotoStraight gotopnt;
- *  gotopnt.setCloseDist(10);
- *  robot.addAction(&gotopnt,100);
- *
- *  gotopnt.setGoal(ArPose(0,2500,-90));
- *
- *  while(!gotopnt.haveAchievedGoal());
- *
- */
 
 	/* Shutdown Aria and exit */
 	Aria::shutdown();

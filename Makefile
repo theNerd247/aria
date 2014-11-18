@@ -7,7 +7,7 @@
 SHELL=/bin/sh
 PROJECT=mecharia2
 VERSION=0.1
-ASN=2
+ASN=5
 
 ## END PROJECT ############################
 #
@@ -20,6 +20,7 @@ SRCDIR=$(PREFIX)/src/asn$(ASN)
 LIBDIR=$(PREFIX)/lib
 CLEAN=$(LIBDIR) 
 REQUIRED_DIRS=$(BINDIR) $(LIBDIR)
+DATADIR=$(PREFIX)/data/asn$(ASN)
 
 ## END DIRS ############################
 #
@@ -44,7 +45,7 @@ SOFLAGS=-shared
 ## OBJECTS ##############################
 
 OBJS:=$(patsubst %.$(FILETYPE), %.o, $(wildcard $(SRCDIR)/*$(FILETYPE)))
-OBJS+=$(PREFIX)/src/main.o
+OBJS+=$(patsubst %.$(FILETYPE), %.o, $(wildcard $(PREFIX)/src/*$(FILETYPE)))
 LIBOBJS=
 LIBOBJS:=$(patsubst %.o, $(SRCDIR)/%.o, $(LIBOBJS))
 LIBOBJECTS=$(filter $(LIBOBJS), $(OBJS))
@@ -102,4 +103,9 @@ dbg: all
 pdf:
 	cd $(SRCDIR); \
 	pdflatex ./*.tex
+
+analyze:
+	cd $(DATADIR);\
+	octave analyze.m;\
+	gnuplot -p graph.gp
 ## END TARGETS ############################

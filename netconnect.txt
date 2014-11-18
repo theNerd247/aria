@@ -1,0 +1,18 @@
+1. Close MobileSim if it's running.
+
+2. Let your laptop join the robot wireless network.  The network name for the robots is “Wireless Network”.
+
+3. Select an IP address in your Windows for your laptop.  The IP address should
+be within the range of 10.0.126.200 --- 10.0.126.250. Set the subset mask
+255.255.255.0 and set the gateway address 10.0.126.1 in your laptop.
+
+4. Start the Visual C++ software and click the menu “File”---“Open”---- “ Project/Solution...” to open your project
+
+5. Right click the project in the left column and click “Properties” in the right-click menu.
+
+7. Check the bottom side of your physical robot and find its IP address.  Input this IP address into the field of “Command Arguments” 
+		(below: put -rh before the IP address.  For example, if the robot IP address is 10.0.126.3 then in the "Command Arguments" field enter the following:
+-rh 10.0.126.3)
+8. Return to the main menu and run your program.
+
+Please note: If you want to use the simulator again instead of the physical robot in the future, you need to clear the field of “Command Arguments” in the above window. Otherwise, your program cannot connect to the simulator.
