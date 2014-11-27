@@ -1,0 +1,38 @@
+\documentclass[a4paper,titlepage]{article}
+\usepackage{labreport}
+
+\begin{document}
+	\title{<+Report Title+>}
+	\author{<+Authors/Other Lab Info+>}
+	% Date is automagically included (see Latex documentation)
+	\maketitle
+
+	\begin{abstract}
+
+	The robot localization problem is a key problem faced in modern day mobile
+	robots. This problem involves obtaining ``clean'' data about the robot's
+	environment, determining the current location of the robot, and deciding on an
+	optimal travel path towards a desired location. The robot receives information
+	from its environment via robotic sensors (wheel encoders and sonar range
+	finders). The robot then uses the sensor data and information about its
+	previous location to determine its current location.
+
+	Mobile robot simulation software is a useful tool for designing and testing
+	localization algorithms. Aria is a C++ SDK used for developing and
+	testing mobile robot software. MobileSim is a simulation software
+	for testing mobile robot software which uses Aria. Both Aria and MobileSim
+	were used to develop and test mobile robot software.
+	
+	\end{abstract}
+
+	\tableofcontents
+	\listoftables
+	\listoffigures
+
+	% other sections of the labreport go here
+	\subfile{intro}
+	\subfile{methods}
+	\subfile{results}
+	\subfile{conclusion}
+	%\subfile{graphs}
+\end{document}

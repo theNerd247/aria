@@ -7,7 +7,7 @@
 SHELL=/bin/sh
 PROJECT=mecharia2
 VERSION=0.1
-ASN=5
+ASN=4
 
 ## END PROJECT ############################
 #
