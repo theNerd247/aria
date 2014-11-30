@@ -43,3 +43,6 @@ pdf: setup
 	export $(PDFENV);\
 	pdflatex $(PDFOPTS) $(PDFTEXTARGET)
 	mv $(PDFOUTDIR)/$(TEXMAIN).pdf $(PDFTARGET)
+
+clean: 
+	rm -rf $(PDFOUTDIR)

@@ -1,0 +1,87 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\section{Introduction}
+
+\subsection{Dead Reckoning}
+% explain the issues of dead Reckoning
+% use as an introduction: 
+% 	to the FWKin prob.
+% 	to the different sensors used
+
+%todo: fix 1st sent.
+
+In order for a robot to move effectively about an environment it must have
+information about its current motion state (position, velocity, heading, etc.).
+For example for a two wheeled robot that attempts to move from one position in a
+room to another needs to keep track of its current heading, position, speed, and
+acceleration. 
+
+Dead reckoning is a solution to this problem that we will explore. Dead
+reckoning is the determining of the location of an object based on a known
+motion model and current state information. Once the current state of an object
+is known then its motion model can be used to predict future motion states. 
+
+A two wheeled robot with a caster (or free wheel used for balance) uses the
+following odometry model:
+
+\begin{equation}\label{eq:deadReckonState}
+	\begin{bmatrix}
+	\frac{1}{2}	& \frac{1}{2} \\[0.3em]
+	\frac{1}{\mathrm{w}} & \frac{1}{\mathrm{w}}
+	\end{bmatrix} 
+	\begin{bmatrix}
+	s_R \\ s_L
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+	S \\ \theta
+	\end{bmatrix}
+\end{equation}
+
+Where $S$ and $\theta$ respectively are the robot distance travelled and heading
+of the robot. $s_L$ and $s_R$ are the distances traveled by each wheel (left and
+right respectively).
+
+While~\eqref{deadReckonState} is useful it is difficult to use in determining
+the motion state of a robot. To simplify our analysis we will assume the
+following: 
+
+\begin{itemize}
+\item The robot's motion model is considered on a time differential \delt that
+is small with respect to the total time the robot performs its motion. 
+
+\item The robot's heading $\theta$ is constant on time differential \delt while
+translating. That is the robot always travels in a straight line.
+\end{itemize}
+
+From these assumptions we have a motion model for the robot:
+
+\begin{equation}
+\label{eq:motionState}
+\xi = \xi_{0} +
+\begin{bmatrix}
+S\cos{\theta} \\
+S\sin{\theta} \\
+\theta
+\end{bmatrix}
+\end{equation}
+
+\subsection{Forward Kinematics}
+% use diff. physics models. 
+% matrix form? (think of A from kalman filter)
+% affects of error in movement 
+% maybe mention the kalman filter?
+
+\subsection{Wheel Encoders}
+% usages
+% simple design of quad Encoders
+% sensor readings format (grayscale encoding) 
+% measuring x/v/a from encoders
+% sources of error
+
+\subsection{Sonar Range Finder}
+% usages
+% simple design explanation (signal threshold and time of flight)
+% error types 
+
+\end{document}
