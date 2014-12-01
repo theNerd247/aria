@@ -10,74 +10,118 @@
 
 %todo: fix 1st sent.
 
-In order for a robot to move effectively about an environment it must have
-information about its current motion state (position, velocity, heading, etc.).
-For example for a two wheeled robot that attempts to move from one position in a
-room to another needs to keep track of its current heading, position, speed, and
-acceleration. 
+Robot localization is crucial to effective robot locomotion. Various methods are
+used to determine the current and future locations of robot; each unique to the
+available sensors, robot structure and environment. Dead reckoning is one of the
+simpler methods used. It requires as few sensors as possible and relies mostly
+on known motion models and states.  Dead reckoning is a method of finding the
+location of an object based on a known motion model and current state
+information. Once the current state of an object is known then its motion model
+can be used to predict future motion states. For example, one can predict the
+future position of a robot if it is known that that the robot is moving in a
+straight line and at a constant speed and its current position.
 
-Dead reckoning is a solution to this problem that we will explore. Dead
-reckoning is the determining of the location of an object based on a known
-motion model and current state information. Once the current state of an object
-is known then its motion model can be used to predict future motion states. 
+A two wheeled robot as shown in \figref{2wheelBot} will be used for our analysis
+of dead reckoning. Two wheeled odometry is used to create a motion model of the
+robot which is then used to predict future locations of the robot. In this study
+only the $x$ and $y$ coordinates are of interest although velocity can easily
+derived. 
 
-A two wheeled robot with a caster (or free wheel used for balance) uses the
-following odometry model:
+\begin{figure}[H]
+\begin{center}
+\include{2wheelBot}
+\end{center}
+\caption{2 Wheeled Robot (Side view)}
+\label{fig:2wheelBot}
+\end{figure}
 
-\begin{equation}\label{eq:deadReckonState}
+We will begin our analysis with the odometry model of the two wheeled robot. The
+odometry model is as follows (its derivation is beyond the scope of this
+report):
+
+%TODO make odom graphic
+\begin{equation}
+\label{eq:deadReckonState}
+	P(t) = 
 	\begin{bmatrix}
-	\frac{1}{2}	& \frac{1}{2} \\[0.3em]
-	\frac{1}{\mathrm{w}} & \frac{1}{\mathrm{w}}
-	\end{bmatrix} 
-	\begin{bmatrix}
-	s_R \\ s_L
+	S \\ \theta
 	\end{bmatrix}
 	=
 	\begin{bmatrix}
-	S \\ \theta
+	\frac{1}{2}	& \frac{1}{2} \\[0.3em]
+	\frac{1}{\mathrm{w}} & -\frac{1}{\mathrm{w}}
+	\end{bmatrix} 
+	\begin{bmatrix}
+	s_R(t) \\ s_L(t)
 	\end{bmatrix}
 \end{equation}
 
 Where $S$ and $\theta$ respectively are the robot distance travelled and heading
 of the robot. $s_L$ and $s_R$ are the distances traveled by each wheel (left and
-right respectively).
+right respectively). $w$ is the distance between the contact points of the
+wheels of the robot.
 
-While~\eqref{deadReckonState} is useful it is difficult to use in determining
-the motion state of a robot. To simplify our analysis we will assume the
-following: 
+\begin{figure}[H]
+	\begin{center}
+	\input{2wheelMotion}
+	\end{center}
+	\caption{Robot Motion Model from $t=0 -$ \delt}
+	\label{fig:2wrMotion}
+\end{figure}
+
+
+From \eqref{deadReckonState} we can create a motion model relative to the
+inertial frame of reference $I$ (as shown in \figref{2wrMotion}). To simplify
+our analysis the following is assumed:
 
 \begin{itemize}
-\item The robot's motion model is considered on a time differential \delt that
-is small with respect to the total time the robot performs its motion. 
-
-\item The robot's heading $\theta$ is constant on time differential \delt while
-translating. That is the robot always travels in a straight line.
+\item The robot's motion model is measured on a time differential \delt that
+is small with respect to the total time ($T$) the robot performs its motion. 
+\item The robot's wheel encoders are error-less and no wheel slipping occurs.
+\item \delt is chosen to be small enough so that $S\mathrm{'}-S \approx 0$ and
+thus $S\mathrm{'} = S$.
 \end{itemize}
 
 From these assumptions we have a motion model for the robot:
 
 \begin{equation}
 \label{eq:motionState}
-\xi = \xi_{0} +
+\xi_{i} = 
 \begin{bmatrix}
-S\cos{\theta} \\
-S\sin{\theta} \\
-\theta
+x \\ y \\ \theta
 \end{bmatrix}
+=
+\begin{bmatrix}
+\cos{\theta} & 0\\
+\sin{\theta} & 0\\
+0 & 1
+\end{bmatrix}
+P(t_i+\Delta\mathrm{t})-P(t_i)
 \end{equation}
 
-\subsection{Forward Kinematics}
-% use diff. physics models. 
-% matrix form? (think of A from kalman filter)
-% affects of error in movement 
-% maybe mention the kalman filter?
+$\xi_{i}$ is the position of the robot after some time lapse \delt. Thus to get
+the current position of the robot after some time $T$ simply sum the interval
+position changes: 
+
+\begin{equation}
+\label{eq:sumE}
+\xi(T) = \xi_0 + \sum^{n}_{i=0} \xi_{i} : n = \frac{T}{\Delta\mathrm{t}}
+\end{equation}
+
+Where $\xi_0$ is the initial position of the robot. 
+
+\eqref{sumE} simply means that given the robots initial position and a sequence
+of wheel distance measurements for $t=\{\delT,2\delT,\cdots,T\}$ the position of
+the robot at $T$ can be predicted. This of course is only valid for the above
+assumptions.
+
+Dead reckoning is not practical when used alone. Sensor noise, wheel slippage,
+and distance estimation error ($S-S\mathrm{'}$) all affect the outcome of
+\eqref{sumE}.
 
 \subsection{Wheel Encoders}
-% usages
-% simple design of quad Encoders
-% sensor readings format (grayscale encoding) 
-% measuring x/v/a from encoders
-% sources of error
+% usages simple design of quad Encoders sensor readings format (grayscale
+% encoding) measuring x/v/a from encoders sources of error
 
 \subsection{Sonar Range Finder}
 % usages
