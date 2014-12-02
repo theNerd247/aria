@@ -4,3 +4,4 @@
 #		set output '<+filename+>'
 # to print graphs to latex
 
+# encoder sample output signal

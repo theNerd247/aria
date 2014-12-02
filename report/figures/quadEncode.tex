@@ -13,14 +13,14 @@
 	}
 }
 % optical sensor B
-\begin{tikzpicture}[scale=3]
+\begin{tikzpicture}[scale=2]
 %sensors
-\draw (0,1) pic [rotate=0,scale=3] {sensor=A};
-\draw (.924,.383) pic [rotate=-67.5,scale=3] {sensor=B};
+\draw (0,1) pic [rotate=0,scale=2] {sensor=A};
+\draw (.924,.383) pic [rotate=-67.5,scale=2] {sensor=B};
 
 \draw[fill=white] (0,0) circle[radius=1];
 \draw[fill=black] (0,0) circle[radius=0.4em];
 
 \foreach \ang in {0,90,...,270}
-	\draw (0,0) pic[rotate=\ang,scale=3] {wedge=black};
+	\draw (0,0) pic[rotate=\ang,scale=2] {wedge=black};
 \end{tikzpicture}

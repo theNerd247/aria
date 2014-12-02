@@ -1,8 +1,9 @@
 \documentclass[main.tex]{subfiles}
 \begin{document}
+
 \section{Introduction}
 
-\subsection{Dead Reckoning}\label{sec:deadReckon}
+\subsection{Dead Reckoning}
 % explain the issues of dead Reckoning
 % use as an introduction: 
 % 	to the FWKin prob.
@@ -51,12 +52,12 @@ report):
 	\frac{1}{\mathrm{w}} & -\frac{1}{\mathrm{w}}
 	\end{bmatrix} 
 	\begin{bmatrix}
-	S_R(t) \\ S_L(t)
+	s_R(t) \\ s_L(t)
 	\end{bmatrix}
 \end{equation}
 
 Where $S$ and $\theta$ respectively are the robot distance travelled and heading
-of the robot. $S_L$ and $S_R$ are the distances traveled by each wheel (left and
+of the robot. $s_L$ and $s_R$ are the distances traveled by each wheel (left and
 right respectively). $w$ is the distance between the contact points of the
 wheels of the robot.
 
@@ -122,6 +123,7 @@ the Kalman filter\footnote{\url{https://en.wikipedia.org/wiki/Kalman_filter}}).
 %TODO: add section on inertial to robot frame of reference rotation matrix
 
 \subsection{Wheel Encoders}
+% usages simple design of quad Encoders sensor readings format (grayscale
 % encoding) measuring x/v/a from encoders sources of error
 
 As seen in \eqref{deadReckonState} the robot's motion model is dependent on
@@ -130,78 +132,51 @@ linear distance traveled are called wheel encoders. Different types of encoders
 are available each with their advantages and disadvantages. In this study we
 will examine a quadrature wheel encoder. 
 
-A quadrature encoder uses a disk (as shown in \figref{quadEncode}) and two
+%A quadrature encoder uses a disk (as shown in \figref{quadEncode}) and two
 optical sensors to track the position of a wheel. The disk is patterned with
 alternating opaque and transparent wedges. As the disk spins the optical sensors
 produce a logic signal (0 or 1) respective to the wedge type it is over. The two
 sensors are placed in such a manner that their output waves are $90\degree$ out
-of phase (see \figref{encSig}). The encoder coupled with the wheel in such a
+%of phase (see \figref{encSig}). The encoder coupled with the wheel in such a
 manner that the disk spins with an angular velocity that is proportional to that
 of the wheel.
 
-\begin{figure}[H]
-	\begin{center}
-	\include{quadEncode}
-	\end{center}
-	\caption{Quadrature Encoder}
-	\label{fig:quadEncode}
-\end{figure}
+%\begin{figure}[H]
+	%\begin{center}
+	%\include{quadEncode}
+	%\end{center}
+	%\caption{Quadrature Encoder}
+	%\label{fig:quadEncode}
+%\end{figure}
 
-\begin{figure}[H]
-	\begin{center}
-	\include{encodeSig}
-	\end{center}
-	\caption{Quadrature Encoder Signals ($90\degree$ phase shift)}
-	\label{fig:encSig}
-\end{figure}
+%\begin{figure}[H]
+	%\begin{center}
+	%\include{encodeSig}
+	%\end{center}
+	%\caption{Quadrature Encoder Signals ($90\degree$ phase shift)}
+	%\label{fig:encSig}
+%\end{figure}
 
 The output from the encoder is read by software (via interrupts) and mapped to
-encoder positions and the directions the encoder rotated. The encoder output can
-be mapped to 4 different phases as shown in \tabref{phaseTab}. The direction of
-the encoder can be determined by two successive phase changes. For example if
-the current phase is 2 and on the next encoder reading the phase is now 1 the
-encoder is rotating clockwise. 
+encoder position and the direction the encoder rotated. The encoder output can
+be mapped to 4 different phases as in. 
 
-\begin{table}[H]
-	\begin{center}
-	\begin{tabularx}{.35\textwidth}{ccc}
-		\toprule
-		Phase & A Signal & B signal\\
-		\midrule
-		0 & 0 & 0 \\
-		1 & 1 & 0 \\
-		2 & 1 & 1 \\
-		3 & 0 & 1 \\
-		\bottomrule
-		\end{tabularx}
-		\caption{Phases of Quadrature Encoder}
-		\label{tab:phaseTab}
-	\end{center}
-\end{table}
+%\begin{table}[H]
+	%\begin{center}
+		%\begin{tabularx}{\textwidth}{ccc}
+		%\toprule
+		%Phase & A Signal & B signal\\
+		%\midrule
+		%0 & 0 & 0 \\
+		%1 & 1 & 0 \\
+		%2 & 1 & 1 \\
+		%3 & 0 & 1 \\
+		%\bottomrule
+		%\end{tabularx}
+	%\end{center}
+%\end{table}
 
-%TODO: rewrite paragraph
-To determine the acceleration and velocity of the wheels the encoder signals are
-simply sampled over time. That is software can determine the number of phase
-changes per second (the velocity) by counting the time between phase changes. 
-
-Quadrature encoders provide the robot with an interface with its lateral
-movement. The lateral distance that each wheel travels is: 
-
-\begin{equation}
-\label{eq:encTransDist}
-S_{L,R} = Rn\mu
-\end{equation}
-
-Where $s_{L,R}$ is the lateral distance of the wheel traveled, $\mu$ is a
-constant in units of $[\frac{radians}{pulse}]$, $n$ is the number of pulses, $R$
-is the radius of the wheel. The translational velocity of the wheels can be
-found from \eqref{encTransDist}:
-
-\begin{equation}
-\label{eq:encTransSpeed}
-\dot{S}_{L,R} = \frac{S_{L,R}}{\delT}
-\end{equation}
-
-Note that \delt is the same as that in \secref{deadReckon}. This is is where the
-restriction of the assumption
-\end{document}
+\subsection{Sonar Range Finder}
+% usages
+% simple design explanation (signal threshold and time of flight)
+% error types 

@@ -1,0 +1,12 @@
+\tikzset{
+	dsig/.pic={
+	\node at (4.5,1) {#1};
+	\draw (0,0) -- (1,0) -- (1,1) -- (2,1) -- (2,0) -- (3,0) -- (3,1) -- (4,1);
+	}
+}
+
+\begin{tikzpicture}[scale=3]
+\draw[<->] (0,1) -- (0,0) -- (2,0);
+\draw pic[shift={(0,2)}] {dsig=A};
+\draw (0,.2) -- (.15,.2) pic {dsig=B};
+\end{tikzpicture}
