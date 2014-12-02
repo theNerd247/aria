@@ -55,10 +55,15 @@ report):
 	\end{bmatrix}
 \end{equation}
 
-Where $S$ and $\theta$ respectively are the robot distance travelled and heading
-of the robot. $S_L$ and $S_R$ are the distances traveled by each wheel (left and
-right respectively). $w$ is the distance between the contact points of the
+Where:
+\begin{itemize}
+\item $S$ is the robot distance travelled.
+\item $\theta$ is the heading of the robot.
+\item $S_L$ and $S_R$ are the distances traveled by each wheel (left and right
+respectively).
+\item $w$ is the distance between the contact points of the
 wheels of the robot.
+\end{itemize}
 
 \begin{figure}[H]
 	\begin{center}
@@ -159,7 +164,7 @@ of the wheel.
 	\begin{center}
 	\begin{tabularx}{.35\textwidth}{ccc}
 		\toprule
-		Phase & A Signal & B signal\\
+		Phase($\rho$) & A Signal & B signal\\
 		\midrule
 		0 & 0 & 0 \\
 		1 & 1 & 0 \\
@@ -189,32 +194,50 @@ restricted to a certain number of pulses per rotation angle. This means that
 their is a minimum distance the wheel must travel in order for the encoders to
 detect motion.
 
-The lateral distance that each wheel travels is: 
+The lateral displacement at some time $t$ for each wheel is: 
 
 \begin{equation}
 \label{eq:encTransDist}
-S_{L,R} = R\mu\sum_{i=0}^n{(-1)^{f(\rho_i,\rho_{i-1})}}
+S_{L,R}(t) = R\mu\sum_{i=1}^n{(-1)^{f(\rho_i,\rho_{i-1})}}
 \end{equation}
 
-Where $S_{L,R}$ is the lateral distance of the wheel traveled, $\mu$ is the
-encoder resolution in units of $[\frac{radians}{pulse}]$, $n$ is the number of
-pulses, and $R$ is the radius of the wheel the encoder is coupled with.
-$f(\rho_i,\rho_{i-1})$ is a function that takes the ``current'' phase and the
-previous phase and returns $2$ or $1$ if the direction between the two phases
-is forward or reverse respectively.
+Where: 
+\begin{itemize}
+\item $\mu$ is the encoder resolution in $[\frac{radians}{pulse}]$
+\item $n$ is the number of pulses from $t=0$ to $t$
+\item $f(\rho_i,\rho_{i-1})$ is a function that takes the ``current'' phase and
+the previous phase and returns $2$ or $1$ if the direction between the two
+phases is forward or reverse respectively.
+\end{itemize}
 
-The
-translational velocity of the wheels can be found from \eqref{encTransDist}:
+The translational velocity and acceleration of the wheels can be found from \eqref{encTransDist}:
 
-\begin{equation}
+\begin{eqnarray}
 \label{eq:encTransSpeed}
-\dot{S}_{L,R} = \frac{S_{L,R}}{\delT}
-\end{equation}
+\dot{S}_{L,R}(t) = \frac{S_{L,R}(t)-S_{L,R}(t-\delT)}{\delT}
+\\
+\ddot{S}_{L,R}(t) = \frac{\dot{S}_{L,R}(t)-\dot{S}_{L,R}(t-\delT)}{\delT}
+\end{eqnarray}
 
-Note that \delt is the same as that defined in \secref{deadReckon}. This 
-allows synchronization between the movement of the robot to the quantifying of
-the robot motion state. 
+Note that \delt is the same as defined in \secref{deadReckon}. Also that
+$\dot{S}_{L,R}(-\delT) = 0$ and $\ddot{S}_{L,R}(-\delT) = 0$ because any
+movement previous to $t=0$ does not exist and to allow $S_{L,R}(t)$ and
+$\dot{S}_{L,R}(t)$ to be the initial velocity and acceleration.
+
+Wheel encoders are not perfect and are subjected to error. Encoder errors can
+occur from many sources including: electric noise, slippages, temperature, and
+wheel velocity. As stated above if the wheel being measured is moving faster
+than the decoding algorithm ($f(\rho_i,\rho_{i-1})$) can run then encoder
+missing will happen causing the robot to possibly become disoriented. Thus
+encoders perform best when the robot is being driven on a smooth, flat surface
+and their is little to no slippage of the wheels. 
 
 \subsection{Sonar Range Finder}
+Wheel encoders are not the only sensors used to determine a robot's position.
+Often circumstances require that a robot knows its position relative to objects
+in its environment. Wheel encoders cannot provide this form of information.
+Instead range finding sensors are used to give the robot information about how
+far away objects are from it's current position. One such device is the sonar
+range finder. 
 
 \end{document}
