@@ -113,13 +113,13 @@ of wheel distance measurements for $t=\{\delT,2\delT,\cdots,T\}$ the position of
 the robot at $T$ can be predicted. This of course is only valid for the above
 assumptions.
 
+%TODO: add section on inertial to robot frame of reference rotation matrix
+
 Dead reckoning is not practical when used alone. Sensor noise, wheel slippage,
 and distance estimation error ($S-S\mathrm{'}$) all affect the outcome of
 \eqref{sumE}. However dead reckoning is not completely useless. In fact it forms
 the base motion model for other filter and motion estimation algorithms (such as
 the Kalman filter\footnote{\url{https://en.wikipedia.org/wiki/Kalman_filter}}).
-
-%TODO: add section on inertial to robot frame of reference rotation matrix
 
 \subsection{Wheel Encoders}
 % encoding) measuring x/v/a from encoders sources of error
@@ -134,12 +134,12 @@ A quadrature encoder uses a disk (as shown in \figref{quadEncode}) and two
 optical sensors to track the position of a wheel. The disk is patterned with
 alternating opaque and transparent wedges. As the disk spins the optical sensors
 produce a logic signal (0 or 1) respective to the wedge type it is over. The two
-sensors are placed in such a manner that their output waves are $90\degree$ out
-of phase (see \figref{encSig}). The encoder coupled with the wheel in such a
+sensors are placed in such a manner that their outputs are $90\degree$ out of
+phase (see \figref{encSig}). The encoder is coupled with the wheel in such a
 manner that the disk spins with an angular velocity that is proportional to that
 of the wheel.
 
-\begin{figure}[H]
+\begin{figure}[h]
 	\begin{center}
 	\include{quadEncode}
 	\end{center}
@@ -147,7 +147,7 @@ of the wheel.
 	\label{fig:quadEncode}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[h]
 	\begin{center}
 	\include{encodeSig}
 	\end{center}
@@ -155,14 +155,7 @@ of the wheel.
 	\label{fig:encSig}
 \end{figure}
 
-The output from the encoder is read by software (via interrupts) and mapped to
-encoder positions and the directions the encoder rotated. The encoder output can
-be mapped to 4 different phases as shown in \tabref{phaseTab}. The direction of
-the encoder can be determined by two successive phase changes. For example if
-the current phase is 2 and on the next encoder reading the phase is now 1 the
-encoder is rotating clockwise. 
-
-\begin{table}[H]
+\begin{table}[h]
 	\begin{center}
 	\begin{tabularx}{.35\textwidth}{ccc}
 		\toprule
@@ -179,29 +172,49 @@ encoder is rotating clockwise.
 	\end{center}
 \end{table}
 
-%TODO: rewrite paragraph
-To determine the acceleration and velocity of the wheels the encoder signals are
-simply sampled over time. That is software can determine the number of phase
-changes per second (the velocity) by counting the time between phase changes. 
+The output from the encoder can be viewed as a 4 phase signal (see
+\tabref{phaseTab}). Each phase change is called a ``pulse'' and is detected by
+an observing hardware (typically a MCU). Software can then be used to determine
+the rotation state of the wheel by analyzing the encoder phase after every pulse
+it produces.
 
-Quadrature encoders provide the robot with an interface with its lateral
-movement. The lateral distance that each wheel travels is: 
+The direction of the encoder can be determined by two successive phase changes.
+For example if the current phase is 2 and on the next encoder reading the phase
+is now 1 the encoder is rotating clockwise. If determining the encoder phase is
+not performed within a certain amount of time then the software will miss some
+encoder ticks resulting in erroneous calculations. 
+
+Because the encoder uses wedges to indicate rotation the encoder's resolution is
+restricted to a certain number of pulses per rotation angle. This means that
+their is a minimum distance the wheel must travel in order for the encoders to
+detect motion.
+
+The lateral distance that each wheel travels is: 
 
 \begin{equation}
 \label{eq:encTransDist}
-S_{L,R} = Rn\mu
+S_{L,R} = R\mu\sum_{i=0}^n{(-1)^{f(\rho_i,\rho_{i-1})}}
 \end{equation}
 
-Where $s_{L,R}$ is the lateral distance of the wheel traveled, $\mu$ is a
-constant in units of $[\frac{radians}{pulse}]$, $n$ is the number of pulses, $R$
-is the radius of the wheel. The translational velocity of the wheels can be
-found from \eqref{encTransDist}:
+Where $S_{L,R}$ is the lateral distance of the wheel traveled, $\mu$ is the
+encoder resolution in units of $[\frac{radians}{pulse}]$, $n$ is the number of
+pulses, and $R$ is the radius of the wheel the encoder is coupled with.
+$f(\rho_i,\rho_{i-1})$ is a function that takes the ``current'' phase and the
+previous phase and returns $2$ or $1$ if the direction between the two phases
+is forward or reverse respectively.
+
+The
+translational velocity of the wheels can be found from \eqref{encTransDist}:
 
 \begin{equation}
 \label{eq:encTransSpeed}
 \dot{S}_{L,R} = \frac{S_{L,R}}{\delT}
 \end{equation}
 
-Note that \delt is the same as that in \secref{deadReckon}. This is is where the
-restriction of the assumption
+Note that \delt is the same as that defined in \secref{deadReckon}. This 
+allows synchronization between the movement of the robot to the quantifying of
+the robot motion state. 
+
+\subsection{Sonar Range Finder}
+
 \end{document}
