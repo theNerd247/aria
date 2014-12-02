@@ -240,4 +240,29 @@ Instead range finding sensors are used to give the robot information about how
 far away objects are from it's current position. One such device is the sonar
 range finder. 
 
+A sonar range finder uses ultrasonic sound waves to detect nearby objects. The
+finder is made of two main components: an emitter and receiver. The emitter
+sends out a high frequency sound wave which is then reflected back to the
+sensor. The receiver then detects the reflected sound wave (see
+\figref{ultraSon}). The time it takes for the sound wave to travel from the
+sensor to the object and back is called the time of flight and is used to
+calculate the distance from the object. 
+
+\begin{figure}[H]
+	\begin{center}
+		\include{ultraSonic}
+	\end{center}
+	\caption{Ultrasonic Range Finder}
+	\label{fig:ultraSon}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{center}
+		\include{ultraSig}
+	\end{center}
+	\caption{Ultrasonic Signal}
+	\label{fig:ultraSig}
+\end{figure}
+
+
 \end{document}
