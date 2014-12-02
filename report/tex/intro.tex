@@ -240,15 +240,7 @@ Instead range finding sensors are used to give the robot information about how
 far away objects are from it's current position. One such device is the sonar
 range finder. 
 
-A sonar range finder uses ultrasonic sound waves to detect nearby objects. The
-finder is made of two main components: an emitter and receiver. The emitter
-sends out a high frequency sound wave which is then reflected back to the
-sensor. The receiver then detects the reflected sound wave (see
-\figref{ultraSon}). The time it takes for the sound wave to travel from the
-sensor to the object and back is called the time of flight and is used to
-calculate the distance from the object. 
-
-\begin{figure}[H]
+\begin{figure}[h]
 	\begin{center}
 		\include{ultraSonic}
 	\end{center}
@@ -256,13 +248,54 @@ calculate the distance from the object.
 	\label{fig:ultraSon}
 \end{figure}
 
+A sonar range finder uses ultrasonic sound waves to detect nearby objects. The
+finder is made of two main components: an emitter and receiver. The emitter
+sends out a high frequency sound wave which is then reflected back to the
+sensor. The receiver then detects when the reflected sound wave (see
+\figref{ultraSon}) returns to the sensor. The time it takes for the sound wave
+to travel from the sensor to the object and back is called the time of flight
+($\delT_f$) and is used to calculate the distance from the object. 
+
 \begin{figure}[H]
 	\begin{center}
 		\include{ultraSig}
 	\end{center}
-	\caption{Ultrasonic Signal}
+	\caption{Sonar Finder Signals}
 	\label{fig:ultraSig}
 \end{figure}
 
+\figref{ultraSig} shows a sample pulse and receive sequence by the sonar range
+finder. After the signal is emitted the sensor counts the time (shown as the
+``Time Lapse Integral'') it takes before it receives an echo that meets a set
+threshold. Once $\delT_f$ is known the distance from the object can be found: 
+
+\begin{equation}
+\label{ultDEq}
+d = \frac{c_{air}\delT_f}{2}
+\end{equation}
+
+Where: 
+\begin{itemize}
+\item $c_{air}$ is the speed of sound in air
+\item $\delT_f$ is the time of flight
+\end{itemize}
+
+\figref{ultraSon} is slightly misleading. It implies that a single pulse from the
+sensor can be used to determine the distance towards an object. In reality the
+sound waves do not reflect off of a single point of an object, nor do the sound
+waves travel along a single line. Instead the sound waves emit within a range of
+angles from the sensor. Thus multiple pulses from a stationary sonar range
+finder will give different experimental values for $d$. Statistical analysis is
+typically used to determine an estimate for object location. This analysis is
+also used to filter out noise.
+
+Sonar range finders do not come without their flaws. One of the largest
+obstacles a range finder faces is object surface type and sonar noise. Different
+object surfaces affect sound reflection differently. If an object's surface
+tends to scatters sound waves then the receiver will not detect an echo. Sonar
+noise can be created when other range finders are present in the environment, or
+due to wave scattering. Thus an ideal environment to use a range finder in is
+one in which few (if any) other range finders are present, and the object
+surfaces are smooth (so as to minimize scattering). 
 
 \end{document}
