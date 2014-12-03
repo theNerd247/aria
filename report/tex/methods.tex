@@ -1,9 +1,34 @@
 \documentclass[main.tex]{subfiles}
 \begin{document}
 
-\section{Methods}
+\section{Example Robot Programs}
+The following example robot programs make use of the Aria and MobileSim
+softwares. The source code can be found in~\ref{appendixA}.
+
+\subsection{Aria Basics}
+% control flow
+% actions
+% simulation? 
 
 \subsection{Square Path Robot}
+The square robot program is a basic program that drives a robot in a square
+path. Each side of the square is two meters long and the goal was simply to
+drive this path as accurately as possible. 
+
+\subsubsection{Algorithm}
+\begin{algorithm}
+\caption{Procedure for Navigating a Square Path}
+\label{alg1}
+\begin{algorithmic}
+	\FOR{$i=0$ to $3$}
+		\STATE set the next robot position 
+		\WHILE{robot has not reached desired goal}
+			\STATE nothing
+		\ENDWHILE
+	\ENDFOR
+\end{algorithmic}
+\end{algorithm}
+
 
 \subsection{Sonar Measure Robot}
 

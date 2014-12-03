@@ -29,8 +29,8 @@
 #include "ariaTypedefs.h"
 #include "ariaUtil.h"
 #include "ArAction.h"
-
-const int SQRDIST = 2000; /**< square shapre distance is 2 meters */
+/**< square shapre distance is 2 meters */
+const int SQRDIST = 2000; 
 
 const double ps[4] = {0,SQRDIST,SQRDIST,0};
 typedef struct 

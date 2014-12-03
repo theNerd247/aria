@@ -118,8 +118,6 @@ of wheel distance measurements for $t=\{\delT,2\delT,\cdots,T\}$ the position of
 the robot at $T$ can be predicted. This of course is only valid for the above
 assumptions.
 
-%TODO: add section on inertial to robot frame of reference rotation matrix
-
 Dead reckoning is not practical when used alone. Sensor noise, wheel slippage,
 and distance estimation error ($S-S\mathrm{'}$) all affect the outcome of
 \eqref{sumE}. However dead reckoning is not completely useless. In fact it forms
@@ -290,12 +288,13 @@ typically used to determine an estimate for object location. This analysis is
 also used to filter out noise.
 
 Sonar range finders do not come without their flaws. One of the largest
-obstacles a range finder faces is object surface type and sonar noise. Different
-object surfaces affect sound reflection differently. If an object's surface
-tends to scatters sound waves then the receiver will not detect an echo. Sonar
-noise can be created when other range finders are present in the environment, or
-due to wave scattering. Thus an ideal environment to use a range finder in is
-one in which few (if any) other range finders are present, and the object
-surfaces are smooth (so as to minimize scattering). 
+obstacles a range finder faces is object surface type and sonar noise. Every
+object surface affects sound reflection differently. If an object's surface
+tends to scatters sound waves then the receiver will not detect an echo (and
+thus the robot will not know the object exists). Sonar noise can be created when
+other range finders are present in the environment, or due to wave scattering.
+Thus an ideal environment to use a range finder in is one in which few (if any)
+other range finders are present, and the object surfaces are smooth (so as to
+minimize scattering). 
 
 \end{document}
