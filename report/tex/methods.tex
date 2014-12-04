@@ -6,9 +6,30 @@ The following example robot programs make use of the Aria and MobileSim
 softwares. The source code can be found in~\ref{appendixA}.
 
 \subsection{Aria Basics}
-% control flow
-% actions
-% simulation? 
+
+Aria is an SDK framework written in C++ for controlling mobile robots. It aims
+to free the programmer from low level tasks (such as signal processing, motor
+code, and interrupts) to allow for higher level control methods.
+\figref{ariaCtrl} shows an overview of the control system that is implemented.
+Essentially the robot runs its own firmware that is in charge of low level
+commands (gathering sensor data, direct motor control, etc.) which communicates
+with a server. The server performs higher level data analysis and control
+methods. 
+
+The server handles control methods via control commands. That is there is a
+series of low level commands that the server communicates to the robot. These
+low level commands can then be abstracted into higher level commands (set
+heading, travel a distance, set forward acceleration, etc.). These commands can
+also be abstracted into what Aria calls Actions. Actions are groups of these
+higher level commands that are then used
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=.5\textwidth]{ArRobot_Task_Cycle}
+\end{center}
+\caption{Aria Control System Overview}
+\label{fig:ariaCtrl}
+\end{figure}
 
 \subsection{Square Path Robot}
 The square robot program is a basic program that drives a robot in a square
