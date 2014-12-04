@@ -4,6 +4,8 @@
 # 	dlmread("<+filename+>","<+delim+>");
 # to read in datafiles
 
+return
+
 t_max = 5;
 R = 1;
 mu = 2*pi/32;
@@ -24,19 +26,13 @@ nr = Sr/(R*mu);
 sl = (R*mu)*nl;
 sr = (R*mu)*nr;
 
-p = [.5,.5;1/w,-1/w]*[sr;sl];
-
-plot(t,p(2,:));
-
-X = [];
-Y = [];
-for i =1:columns(t)
-	X = [X,p(1,i)*cos(p(2,i))];
-	Y = [Y,p(1,i)*sin(p(2,i))];
+eta = [nr,nl,Sr,Sl,S,theta,x,y,t];
+et = [];
+for el = eta
+	et = [et,rot90(el,-1)];
 end
+eta = et;
 
-plot(X,Y);
-%plot(t,theta);
 %dlmwrite("tables/eta.dat","delimiter"," ");
 %plot(x,y,t,Sl,t,Sr);
 %figure(2);

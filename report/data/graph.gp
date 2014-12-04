@@ -4,4 +4,5 @@
 #		set output '<+filename+>'
 # to print graphs to latex
 
-# encoder sample output signal
+set term epslatex color
+set output 'graphs/egGraph1.tex'

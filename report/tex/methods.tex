@@ -7,14 +7,14 @@ softwares. The source code can be found in~\apref{appendA}.
 
 \subsection{Aria Basics}
 
-Aria\footnote{\url{http://robots.mobilerobots.com/Aria/docs/main.html}} is an
-SDK framework written in C++ for controlling mobile robots. It aims to free the
-programmer from low level tasks (such as signal processing, motor code, and
-interrupts) to allow for higher level control methods.  \figref{ariaCtrl} shows
-an overview of the control system that is implemented.  Essentially the robot
-runs its own firmware that is in charge of low level commands (gathering sensor
-data, direct motor control, etc.) which communicates with a server. The server
-performs higher level data analysis and control methods. 
+Aria\cite{aria} is an SDK framework written in C++ for controlling mobile
+robots. It aims to free the programmer from low level tasks (such as signal
+processing, motor code, and interrupts) to allow for higher level control
+methods.  \figref{ariaCtrl} shows an overview of the control system that is
+implemented.  Essentially the robot runs its own firmware that is in charge of
+low level commands (gathering sensor data, direct motor control, etc.) which
+communicates with a server. The server performs higher level data analysis and
+control methods. 
 
 The server handles control methods via control commands. That is there is a
 series of low level commands that the server communicates to the robot. These
@@ -103,16 +103,15 @@ circles because of the robot's rotation.
 
 \subsection{Sonar Measure Robot} 
 
-The sonar robot program is the simplest out of
-those presented here. That is the robot does not move during the program.
-Instead the robot simply uses sonar range finders to detect the distance and
-angle towards the nearest object (relative to the robot of course). No Action
-classes were needed for this program. Instead the  function
-\code{checkRangeDevicesCurrentPolar()} is used.  This function uses
-\eqref{ultDEq} to compute the distance from the object to each sensor. Once each
-sensor reading has been established it then uses triangulation to determine the
-objects position. \figref{sonarSim} shows the program in action. Each line from
-the robot represents a sonar sensor's output.
+The sonar robot program is the simplest out of those presented here. That is the
+robot does not move during the program.  Instead the robot simply uses sonar
+range finders to detect the distance and angle towards the nearest object
+(relative to the robot of course). No Action classes were needed for this
+program. Instead the  function \code{checkRangeDevicesCurrentPolar()} is used.
+This function uses \eqref{ultDEq} to compute the distance from the object to
+each sensor. Once each sensor reading has been established it then uses
+triangulation to determine the objects position. \figref{sonarSim} shows the
+program in action. Each line from the robot represents a sonar sensor's output.
 
 \begin{figure}[H]
 \begin{center}

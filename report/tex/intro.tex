@@ -90,17 +90,21 @@ From these assumptions we have a motion model for the robot:
 
 \begin{equation}
 \label{eq:motionState}
-\xi_{i} = 
+\xi_{i}(P_i) = 
 \begin{bmatrix}
 x \\ y \\ \theta
 \end{bmatrix}
 =
 \begin{bmatrix}
-\cos{\theta} & 0\\
-\sin{\theta} & 0\\
+\cos{\theta_P} & 0\\
+\sin{\theta_P} & 0\\
 0 & 1
 \end{bmatrix}
-P(t_i+\Delta\mathrm{t})-P(t_i)
+P(t_i) : \theta_P = 
+\begin{bmatrix}
+	0 & 1
+\end{bmatrix}
+P(t_i)
 \end{equation}
 
 $\xi_{i}$ is the position of the robot after some time lapse \delt. Thus to get
@@ -134,13 +138,13 @@ are available each with their advantages and disadvantages. In this study we
 will examine a quadrature wheel encoder. 
 
 A quadrature encoder uses a disk (as shown in \figref{quadEncode}) and two
-optical sensors to track the position of a wheel. The disk is patterned with
-alternating opaque and transparent wedges. As the disk spins the optical sensors
-produce a logic signal (0 or 1) respective to the wedge type it is over. The two
-sensors are placed in such a manner that their outputs are $90\degree$ out of
-phase (see \figref{encSig}). The encoder is coupled with the wheel in such a
-manner that the disk spins with an angular velocity that is proportional to that
-of the wheel.
+optical sensors to track the position of a wheel \cite{Wise99}. The disk is
+patterned with alternating opaque and transparent wedges. As the disk spins the
+optical sensors produce a logic signal (0 or 1) respective to the wedge type it
+is over. The two sensors are placed in such a manner that their outputs are
+$90\degree$ out of phase (see \figref{encSig}). The encoder is coupled with the
+wheel in such a manner that the disk spins with an angular velocity that is
+proportional to that of the wheel.
 
 \begin{figure}[h]
 	\begin{center}
@@ -179,7 +183,7 @@ The output from the encoder can be viewed as a 4 phase signal (see
 \tabref{phaseTab}). Each phase change is called a ``pulse'' and is detected by
 an observing hardware (typically a MCU). Software can then be used to determine
 the rotation state of the wheel by analyzing the encoder phase after every pulse
-it produces.
+it produces\cite{wikiEncod}.
 
 The direction of the encoder can be determined by two successive phase changes.
 For example if the current phase is 2 and on the next encoder reading the phase
@@ -268,7 +272,7 @@ finder. After the signal is emitted the sensor counts the time (shown as the
 threshold. Once $\delT_f$ is known the distance from the object can be found: 
 
 \begin{equation}
-\label{ultDEq}
+\label{eq:ultDEq}
 d = \frac{c_{air}\delT_f}{2}
 \end{equation}
 
