@@ -3,25 +3,41 @@
 
 \section{Example Robot Programs}
 The following example robot programs make use of the Aria and MobileSim
-softwares. The source code can be found in~\ref{appendixA}.
+softwares. The source code can be found in~\apref{appendA}.
 
 \subsection{Aria Basics}
 
-Aria is an SDK framework written in C++ for controlling mobile robots. It aims
-to free the programmer from low level tasks (such as signal processing, motor
-code, and interrupts) to allow for higher level control methods.
-\figref{ariaCtrl} shows an overview of the control system that is implemented.
-Essentially the robot runs its own firmware that is in charge of low level
-commands (gathering sensor data, direct motor control, etc.) which communicates
-with a server. The server performs higher level data analysis and control
-methods. 
+Aria\footnote{\url{http://robots.mobilerobots.com/Aria/docs/main.html}} is an
+SDK framework written in C++ for controlling mobile robots. It aims to free the
+programmer from low level tasks (such as signal processing, motor code, and
+interrupts) to allow for higher level control methods.  \figref{ariaCtrl} shows
+an overview of the control system that is implemented.  Essentially the robot
+runs its own firmware that is in charge of low level commands (gathering sensor
+data, direct motor control, etc.) which communicates with a server. The server
+performs higher level data analysis and control methods. 
 
 The server handles control methods via control commands. That is there is a
 series of low level commands that the server communicates to the robot. These
-low level commands can then be abstracted into higher level commands (set
-heading, travel a distance, set forward acceleration, etc.). These commands can
-also be abstracted into what Aria calls Actions. Actions are groups of these
-higher level commands that are then used
+low level commands can then be abstracted into higher level motion commands.
+Motion commands are used to command the robot to perform motion actions such as
+driving a certain distance or rotating at a certain speed. These commands are
+converted into low level commands at run time.
+
+Motion commands are also abstracted into what Aria calls Actions. Actions are
+thought of as modules composed of motion commands that can be connected together
+to achieve more complex motion. Each action has a set of motion commands it uses
+to perform a desired action (such as avoiding a wall, or moving forward at a
+constant velocity).  The Actions are added to a list and are evaluated upon
+runtime to produce a series of low level commands. Each Action is given a weight
+when added to the action list. This allows for prioritizing of actions and so
+the actions with higher priority have more influence on the outcome of the robot
+commands.
+
+Each action can be thought of as running in parallel to the main server code and
+other actions. This becomes important in the S-curve program where the robot is
+commanded to go to a position once it has reached a certain location. Because
+actions are used these commands are independent of one another and the robot can
+handle internally when to obey the given commands. 
 
 \begin{figure}[H]
 \begin{center}

@@ -1,9 +1,35 @@
 \documentclass[main.tex]{subfiles}
-\begin{document}
-\appendix
-\label{appendA}
+\lstset{breakatwhitespace=false,
+	breaklines=true,
+	captionpos=top,
+	numbers=left,
+	frame=tl
+	}
 
-\section{Square Robot Code}
-\section{Sonar Measure Robot}
-\section{S-Curve Robot}
+\begin{document}
+
+\begin{appendices}
+
+\section{Robot Source Code}
+\label{ap:appendA}
+Below are the source code files for the various robot programs. Each program is
+implemented as its own function which is called from the main function of the
+program. Below is the main function. The main function is called with the
+\code{RUNASNx} macro. This macro is replaced with the desired program function
+call during compile time (this is done through a makefile system which is beyond
+the support of this report\footnote{\url{https://www.gnu.org/software/make/}}). 
+
+\lstinputlisting[language=c++,title=main.cpp]{/home/noah/class/mech/aria/src/main.cpp}
+
+\subsection*{Square Robot Code}
+\lstinputlisting[language=c++,title=SquareBot.cpp]{/home/noah/class/mech/aria/src/asn1/asn1.cpp}
+	
+\subsection*{Sonar Measure Robot}
+\lstinputlisting[language=c++,title=SonarBot.cpp]{/home/noah/class/mech/aria/src/asn2/asn2.cpp}
+
+\subsection*{S-Curve Robot}
+\lstinputlisting[language=c++,title=SCurveBot.cpp]{/home/noah/class/mech/aria/src/asn4/asn4.cpp}
+
+\end{appendices}
+
 \end{document}

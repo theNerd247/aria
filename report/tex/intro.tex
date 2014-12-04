@@ -192,7 +192,7 @@ restricted to a certain number of pulses per rotation angle. This means that
 their is a minimum distance the wheel must travel in order for the encoders to
 detect motion.
 
-The lateral displacement at some time $t$ for each wheel is: 
+The lateral displacement of a wheel at some time $t$ for each wheel is: 
 
 \begin{equation}
 \label{eq:encTransDist}
@@ -217,10 +217,10 @@ The translational velocity and acceleration of the wheels can be found from \eqr
 \ddot{S}_{L,R}(t) = \frac{\dot{S}_{L,R}(t)-\dot{S}_{L,R}(t-\delT)}{\delT}
 \end{eqnarray}
 
-Note that \delt is the same as defined in \secref{deadReckon}. Also that
+Note that \delt is the same as defined in \secref{deadReckon}. Also note that
 $\dot{S}_{L,R}(-\delT) = 0$ and $\ddot{S}_{L,R}(-\delT) = 0$ because any
-movement previous to $t=0$ does not exist and to allow $S_{L,R}(t)$ and
-$\dot{S}_{L,R}(t)$ to be the initial velocity and acceleration.
+movement previous to $t=0$ does not exist and to make $S_{L,R}(t)$ and
+$\dot{S}_{L,R}(t)$ be the initial velocity and acceleration.
 
 Wheel encoders are not perfect and are subjected to error. Encoder errors can
 occur from many sources including: electric noise, slippages, temperature, and
