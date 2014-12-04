@@ -13,12 +13,19 @@ softwares. The source code can be found in~\ref{appendixA}.
 \subsection{Square Path Robot}
 The square robot program is a basic program that drives a robot in a square
 path. Each side of the square is two meters long and the goal was simply to
-drive this path as accurately as possible. 
+drive this path as accurately as possible. The algorithm used to travel the
+square path is show in \alref{alg1}. 
 
-\subsubsection{Algorithm}
+An Aria action class is used to drive the robot towards the desired goal. It
+continuously monitors its position and rotates the robot to face the goal so as
+to make it drive in a straight line (the robot will not drive straight until it
+is fully rotated towards the desired location). \alref{alg1} and
+\alref{driveStraight} run concurrently in software thus the robot will go
+towards the desired goal once it has been commanded.
+
 \begin{algorithm}
 \caption{Procedure for Navigating a Square Path}
-\label{alg1}
+\label{al:alg1}
 \begin{algorithmic}
 	\FOR{$i=0$ to $3$}
 		\STATE set the next robot position 
@@ -29,9 +36,111 @@ drive this path as accurately as possible.
 \end{algorithmic}
 \end{algorithm}
 
+\newcommand{\delxi}{\Delta\xi}
 
-\subsection{Sonar Measure Robot}
+\begin{algorithm}
+\caption{Drive Straight Towards Goal}
+\label{al:driveStraight}
+	\begin{algorithmic}
+		\IF{$\theta - \theta_{Goal} > 0$}
+			\STATE rotate towards goal
+			\STATE set translational velocity to 0
+		\ELSIF{robot is not within goal threshold}
+			\STATE drive robot towards goal
+		\ENDIF
+	\end{algorithmic}
+\end{algorithm}
+
+\begin{figure}[H]
+	\begin{center}
+	\includegraphics[]{squareBot}
+	\end{center}
+	\caption{Square Robot Path}
+	\label{fig:sqBotPath}
+\end{figure}
+
+\figref{sqBotPath} shows the result of the square robot simulation. The red
+boxes are the locations of the robot at certain time frames; it can be viewed as
+the path the robot moved. Note that at the corners of the square the boxes form
+circles because of the robot's rotation.
+
+\subsection{Sonar Measure Robot} 
+
+The sonar robot program is the simplest out of
+those presented here. That is the robot does not move during the program.
+Instead the robot simply uses sonar range finders to detect the distance and
+angle towards the nearest object (relative to the robot of course). No Action
+classes were needed for this program. Instead the  function
+\code{checkRangeDevicesCurrentPolar()} is used.  This function uses
+\eqref{ultDEq} to compute the distance from the object to each sensor. Once each
+sensor reading has been established it then uses triangulation to determine the
+objects position. \figref{sonarSim} shows the program in action. Each line from
+the robot represents a sonar sensor's output.
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics{sonarBot}
+\end{center}
+\caption{Sonar Robot Simulation}
+\label{fig:sonarSim}
+\end{figure}
 
 \subsection{S-Curve Robot}
+
+The S-Curve robot program was designed to move a robot through a curved
+``canyon'' (see \figref{scurveSim}). An Action class was written to control the
+heading of the robot so as to move parallel to the nearest object (a wall in
+this case). At the start of the program the robot is commanded to move with a
+constant forwards velocity and avoid hitting objects in front of it. This is
+done internally by the Aria library which uses the wheel encoders to track its
+velocity and its sonar range finders to detect object distances.
+
+\begin{algorithm}
+\caption{Set Heading to Follow Wall}
+\label{al:folWall}
+\begin{algorithmic}
+\STATE get sonar reading (r,$\theta$)
+
+\STATE side = $\theta < 0$ ? $1 : 0$
+\STATE angle += $\theta + (2*side-1)*90$
+
+\IF{angle $> \Delta\theta$}
+	\STATE newHeading $+= angle$
+	\STATE set Rotational Veloctiy = angle($.125)$
+\ELSE 
+	\STATE set Rotational Velocity $= 0$
+\ENDIF
+
+\end{algorithmic}
+\end{algorithm}
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=.5\textwidth]{scurveBot}
+\end{center}
+\caption{S-Curve Robot Sinulation}
+\label{fig:scurveSim}
+\end{figure}
+
+
+The robot monitors whether an object is in front of the robot at any distance.
+If there is no object then the robot will not move. For this instance it stops
+the robot once it reaches the end of the canyon. This is necessary for running
+the robot in real time as to avoid having undesired behavior once it finished
+following the curve. 
+
+\alref{folWall} describes the method use to keep the robot parallel to the
+walls. The robot needs to know which side the nearest object is on, and then
+determine the angle to rotate so that it is normal to the wall ($\theta$ in
+\figref{prWall}). Once the angle is known and it is outside of our threshold
+value ($\Delta\theta$) then set the new heading and rotational velocity.
+
+\begin{figure}[H]
+\begin{center}
+\include{scurve}
+\end{center}
+\caption{Angles For Parallel Wall Heading}
+\label{fig:prWall}
+\end{figure}
 
 \end{document}
